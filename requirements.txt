@@ -1,0 +1,2 @@
+# Python Logic Gate Simulator Dependencies
+Pillow>=10.0.0

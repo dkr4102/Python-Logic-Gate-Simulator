@@ -1,78 +1,154 @@
+import os
 import tkinter as tk
-import firstpage
 from tkinter import Label, messagebox
-from PIL import Image, ImageTk  # Make sure you have the pillow library installed
+from PIL import Image, ImageTk
 
-class ORGateApp:  # Changed class name to ORGateApp
+class ORGateApp:
     def __init__(self, root):
-
-        
         self.root = root
-        width = self.root.winfo_screenwidth()
-        height = self.root.winfo_screenheight()
-        self.root.geometry(f"{width}x{height}")
-        self.root.title("OR GATE")
-        # self.root.configure(bg=("#081108"))
+        self.root.title("OR GATE - Logic Gate Simulator")
+        self.root.configure(bg="#0d1117")
 
-        # Fonts and Labels
-        self.font = ('Arial', 18, 'bold')
-        lbl_print = Label(root, text= "A = ", font= ("Arial",20), fg="dark green").place(x=630 , y=355)
-        lbl_print = Label(root, text= "B = ", font= ("Arial",20), fg="dark green").place(x=630 , y=425)
-        lbl_print = Label(root, text= "Y = ", font= ("Arial",20), fg="dark green").place(x=1100 , y=390)
-        lbl_print = Label(root, text= "-: OR Gate :-", font= ("Arial",40 ,'bold', 'underline'), fg="dark green").place(x=810 , y=50)
+        # Set responsive window size (minimum 900x650)
+        screen_w = self.root.winfo_screenwidth()
+        screen_h = self.root.winfo_screenheight()
+        win_w = min(1050, max(850, int(screen_w * 0.75)))
+        win_h = min(750, max(600, int(screen_h * 0.75)))
+        pos_x = max(0, (screen_w - win_w) // 2)
+        pos_y = max(0, (screen_h - win_h) // 2)
+        self.root.geometry(f"{win_w}x{win_h}+{pos_x}+{pos_y}")
+        self.root.minsize(800, 550)
 
-        # Load and display image
-        image = Image.open(r"C:\Users\darsh\OneDrive - marwadiuniversity.ac.in\Pictures\Picture2.png")  # Update the path to your image
-        image = image.resize((310, 230), Image.Resampling.LANCZOS)  # Use LANCZOS for resizing
-        self.img = ImageTk.PhotoImage(image)
-        self.image_label = tk.Label(self.root, image=self.img)
-        self.image_label.place(x=790, y=300)
+        # Header Frame
+        header = tk.Frame(self.root, bg="#0d1117")
+        header.pack(fill="x", padx=20, pady=15)
 
-        # Text fields
-        self.T1 = tk.Entry(self.root, font=self.font, width=5, justify='center')
-        self.T2 = tk.Entry(self.root, font=self.font, width=5, justify='center')
-        self.T3 = tk.Entry(self.root, font=self.font, width=5, justify='center', state='readonly')
+        back_btn = tk.Button(header, text="← Back", font=('Arial', 12, 'bold'),
+                             bg="#21262d", fg="#e6edf3", activebackground="#30363d", activeforeground="#ffffff",
+                             relief="flat", cursor="hand2", padx=14, pady=6, command=self.go_back)
+        back_btn.pack(side="left")
 
-        # Buttons
-        self.A1 = tk.Button(self.root, text="Y=A+B\n(Answer)", font=self.font, command=self.calculate_or)
-        self.A2 = tk.Button(self.root, text="Exit", font=self.font, command=self.root.quit)
-        self.A3 = tk.Button(self.root, text= "↩",font=("Times New Roman", 36 , 'bold'), command=self.go_back)
-        self.A1.configure(bg="#00A86B")
-        self.A2.configure(bg="#BA8781")
-        self.A3.configure(bg="#BA8781")
-        
-        # Placing components
-        self.T1.place(x=690, y=360)
-        self.T1.configure(bg=("#4caf50"))
-        self.T2.place(x=690, y=430)
-        self.T2.configure(bg=("#4caf50"))
-        self.T3.place(x=1155, y=390)
-        
+        title = Label(header, text="OR GATE SIMULATOR", font=('Arial', 24, 'bold'),
+                      bg="#0d1117", fg="#38bdf8")
+        title.pack(side="left", expand=True)
 
-        self.A1.place(x=830, y=760, width=200, height=100)
-        self.A2.place(x=830, y=880, width=200, height=50)
-        self.A3.place(x=50, y=50, width=70, height=50)
+        subtitle = Label(self.root, text="Formula: Y = A + B (Output is 1 if AT LEAST ONE input is 1)",
+                         font=('Arial', 12, 'italic'), bg="#0d1117", fg="#8b949e")
+        subtitle.pack(pady=5)
+
+        # Main Workspace Frame
+        content_frame = tk.Frame(self.root, bg="#161b22", bd=1, relief="solid")
+        content_frame.pack(fill="both", expand=True, padx=30, pady=15)
+
+        # Circuit schematic display
+        self.img = None
+        self.load_schematic(content_frame)
+
+        # Interactive Controls Frame
+        ctrl_frame = tk.Frame(content_frame, bg="#161b22")
+        ctrl_frame.pack(pady=20)
+
+        # Input A
+        Label(ctrl_frame, text="Input A:", font=('Arial', 14, 'bold'), bg="#161b22", fg="#58a6ff").grid(row=0, column=0, padx=10, pady=10, sticky="e")
+        self.T1 = tk.Entry(ctrl_frame, font=('Arial', 16, 'bold'), width=5, justify='center', bg="#0d1117", fg="#ffffff", insertbackground="#ffffff", relief="flat")
+        self.T1.grid(row=0, column=1, padx=10, pady=10)
+        self.T1.insert(0, "0")
+
+        # Quick Toggle Buttons for Input A
+        tk.Button(ctrl_frame, text="Set 0", font=('Arial', 9), bg="#21262d", fg="#c9d1d9",
+                  command=lambda: self.set_input(self.T1, "0")).grid(row=0, column=2, padx=2)
+        tk.Button(ctrl_frame, text="Set 1", font=('Arial', 9), bg="#21262d", fg="#c9d1d9",
+                  command=lambda: self.set_input(self.T1, "1")).grid(row=0, column=3, padx=2)
+
+        # Input B
+        Label(ctrl_frame, text="Input B:", font=('Arial', 14, 'bold'), bg="#161b22", fg="#58a6ff").grid(row=1, column=0, padx=10, pady=10, sticky="e")
+        self.T2 = tk.Entry(ctrl_frame, font=('Arial', 16, 'bold'), width=5, justify='center', bg="#0d1117", fg="#ffffff", insertbackground="#ffffff", relief="flat")
+        self.T2.grid(row=1, column=1, padx=10, pady=10)
+        self.T2.insert(0, "0")
+
+        # Quick Toggle Buttons for Input B
+        tk.Button(ctrl_frame, text="Set 0", font=('Arial', 9), bg="#21262d", fg="#c9d1d9",
+                  command=lambda: self.set_input(self.T2, "0")).grid(row=1, column=2, padx=2)
+        tk.Button(ctrl_frame, text="Set 1", font=('Arial', 9), bg="#21262d", fg="#c9d1d9",
+                  command=lambda: self.set_input(self.T2, "1")).grid(row=1, column=3, padx=2)
+
+        # Output Y
+        Label(ctrl_frame, text="Output Y:", font=('Arial', 14, 'bold'), bg="#161b22", fg="#38bdf8").grid(row=2, column=0, padx=10, pady=10, sticky="e")
+        self.T3 = tk.Entry(ctrl_frame, font=('Arial', 16, 'bold'), width=5, justify='center', state='readonly', readonlybackground="#0d1117", fg="#38bdf8", relief="flat")
+        self.T3.grid(row=2, column=1, padx=10, pady=10)
+
+        self.status_lbl = Label(ctrl_frame, text="Status: Ready", font=('Arial', 11), bg="#161b22", fg="#8b949e")
+        self.status_lbl.grid(row=2, column=2, columnspan=2, padx=10, sticky="w")
+
+        # Action Buttons
+        btn_box = tk.Frame(self.root, bg="#0d1117")
+        btn_box.pack(pady=15)
+
+        calc_btn = tk.Button(btn_box, text="⚡ Calculate Output (Y = A + B)", font=('Arial', 13, 'bold'),
+                             bg="#0284c7", fg="#ffffff", activebackground="#0369a1", activeforeground="#ffffff",
+                             cursor="hand2", padx=20, pady=10, relief="flat", command=self.calculate_or)
+        calc_btn.pack(side="left", padx=10)
+
+        exit_btn = tk.Button(btn_box, text="Exit App", font=('Arial', 12),
+                             bg="#21262d", fg="#f85149", activebackground="#30363d",
+                             cursor="hand2", padx=16, pady=10, relief="flat", command=self.root.destroy)
+        exit_btn.pack(side="left", padx=10)
+
+        # Initial calculation
+        self.calculate_or()
+
+    def load_schematic(self, parent):
+        candidates = [
+            os.path.join(os.path.dirname(__file__), "or_gate.png"),
+            os.path.join(os.path.dirname(__file__), "assets", "or_gate.png")
+        ]
+        img_path = next((p for p in candidates if os.path.exists(p)), None)
+
+        if img_path:
+            try:
+                raw_img = Image.open(img_path)
+                resized = raw_img.resize((320, 180), Image.Resampling.LANCZOS)
+                self.img = ImageTk.PhotoImage(resized)
+                img_lbl = Label(parent, image=self.img, bg="#161b22")
+                img_lbl.pack(pady=15)
+                return
+            except Exception:
+                pass
+
+        fallback = Label(parent, text="[ OR GATE SCHEMATIC: Y = A + B ]",
+                         font=('Courier', 16, 'bold'), bg="#161b22", fg="#38bdf8", pady=30)
+        fallback.pack()
+
+    def set_input(self, entry_widget, val):
+        entry_widget.delete(0, tk.END)
+        entry_widget.insert(0, val)
+        self.calculate_or()
 
     def calculate_or(self):
-        input1 = self.T1.get()
-        input2 = self.T2.get()
+        input1 = self.T1.get().strip()
+        input2 = self.T2.get().strip()
 
         if input1 in ['0', '1'] and input2 in ['0', '1']:
-            result = str(int(input1) | int(input2))  # OR gate logic
+            result = str(int(input1) | int(input2))
             self.T3.config(state='normal')
             self.T3.delete(0, tk.END)
             self.T3.insert(0, result)
             self.T3.config(state='readonly')
+            if result == '1':
+                self.status_lbl.config(text="Status: HIGH (True)", fg="#38bdf8")
+            else:
+                self.status_lbl.config(text="Status: LOW (False)", fg="#8b949e")
         else:
-            messagebox.showerror("Invalid Input", "Please enter 0 or 1 only")
+            messagebox.showerror("Invalid Input", "Please enter 0 or 1 only.")
 
     def go_back(self):
-        self.root.destroy()  # Close the AND Gate window
-        first_page_window = tk.Tk()  # Create a new window
-        app = firstpage.LogicGateApp(first_page_window)  # Open the First Page
-        first_page_window.mainloop()
+        self.root.destroy()
+        import firstpage
+        new_root = tk.Tk()
+        firstpage.LogicGateApp(new_root)
+        new_root.mainloop()
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = ORGateApp(root)  # Updated instance creation
+    app = ORGateApp(root)
     root.mainloop()

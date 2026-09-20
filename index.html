@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogicGate Studio | Digital Logic Simulator</title>
+  <meta name="description" content="Precision digital logic gate simulator and computer architecture suite with real-time waveform analysis, interactive truth tables, and compound circuit design.">
+  <meta name="author" content="Darsh K. Raval">
+
+  <!-- Google Fonts: Space Grotesk (Headings), Outfit (UI Sans), Fira Code (Technical Monospace) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/intro.css">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="theme-dark">
+  <!-- 0. Cinematic 10-Second Introduction Animation Canvas -->
+  <div id="introOverlay" class="intro-overlay" role="dialog" aria-modal="true" aria-label="System Introduction">
+    <canvas id="introCanvas"></canvas>
+
+    <!-- Skip Intro Button -->
+    <button class="intro-skip-btn" id="introSkipBtn" title="Skip Introduction (or Press ESC)">
+      <span>Skip Intro</span>
+      <i data-lucide="skip-forward" class="lucide-icon icon-sm"></i>
+    </button>
+
+    <!-- Minimalist Lower-Third Telemetry -->
+    <div class="intro-bottom-telemetry">
+      <div class="intro-stage-label">
+        <span class="intro-stage-dot"></span>
+        <span id="introStageLabel">STAGE 01 // SIGNAL PROPAGATION</span>
+      </div>
+      <div class="intro-timer-display" id="introTimerDisplay">10.0s</div>
+    </div>
+  </div>
+
+  <!-- Dynamic ambient background grid -->
+  <div class="bg-ambient"></div>
+
+  <div class="app-container">
+    <!-- 1. Studio Header -->
+    <header class="top-navbar">
+      <div class="brand-section">
+        <div class="brand-logo-icon">
+          <i data-lucide="cpu" class="lucide-icon"></i>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title-row">
+            <h1>LogicGate Studio</h1>
+            <span class="version-pill">v2.0</span>
+          </div>
+          <p class="brand-subtitle">Engineered by <span>Darsh K. Raval</span></p>
+        </div>
+      </div>
+
+      <!-- Center: Workspace Mode Switcher -->
+      <div class="mode-segmented-control" role="tablist" aria-label="Simulator Mode">
+        <button class="mode-segmented-btn active" id="modeSimulator" role="tab" aria-selected="true">
+          <i data-lucide="binary" class="lucide-icon icon-sm"></i>
+          <span>Logic Gates</span>
+        </button>
+        <button class="mode-segmented-btn" id="modeCircuits" role="tab" aria-selected="false">
+          <i data-lucide="layers" class="lucide-icon icon-sm"></i>
+          <span>Compound Circuits</span>
+        </button>
+      </div>
+
+      <!-- Right: Action Controls -->
+      <div class="nav-actions">
+        <!-- Sound Toggle -->
+        <button class="action-btn active" id="soundToggleBtn" title="Toggle Sound (Press M)" aria-label="Toggle Sound Effects">
+          <i data-lucide="volume-2" class="lucide-icon" id="soundIcon"></i>
+          <span id="soundLabel">Audio</span>
+        </button>
+
+        <!-- Theme Toggle (Light / Dark only) -->
+        <button class="action-btn theme-toggle-btn" id="themeToggleBtn" title="Switch Theme (Press T)" aria-label="Toggle Theme">
+          <i data-lucide="sun" class="lucide-icon"></i>
+          <span>Light</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. Logic Gate Selector Strip (8 Standard Gates) -->
+    <nav class="gate-selector-bar" aria-label="Logic Gate Selection">
+      <button class="gate-tab-btn active" data-gate="AND" id="gate_btn_AND">
+        <span>AND</span>
+        <span class="gate-symbol">A · B</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="OR" id="gate_btn_OR">
+        <span>OR</span>
+        <span class="gate-symbol">A + B</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="NOT" id="gate_btn_NOT">
+        <span>NOT</span>
+        <span class="gate-symbol">Ā</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="NAND" id="gate_btn_NAND">
+        <span>NAND</span>
+        <span class="gate-symbol">(A·B)'</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="NOR" id="gate_btn_NOR">
+        <span>NOR</span>
+        <span class="gate-symbol">(A+B)'</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="XOR" id="gate_btn_XOR">
+        <span>XOR</span>
+        <span class="gate-symbol">A ⊕ B</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="XNOR" id="gate_btn_XNOR">
+        <span>XNOR</span>
+        <span class="gate-symbol">⊙</span>
+      </button>
+      <button class="gate-tab-btn" data-gate="BUFFER" id="gate_btn_BUFFER">
+        <span>BUFFER</span>
+        <span class="gate-symbol">Y = A</span>
+      </button>
+    </nav>
+
+    <!-- 3. Primary Studio Workspace Grid -->
+    <main class="workspace-grid" id="simulatorWorkspace">
+      <!-- Left Column: Circuit Canvas & Docked Logic Analyzer -->
+      <div class="stage-column">
+        <!-- Interactive Circuit Card -->
+        <section class="studio-card" aria-label="Circuit Visualizer">
+          <div class="circuit-card-header">
+            <div class="gate-headline">
+              <h2 id="gateTitle">AND Gate</h2>
+              <span class="formula-tag" id="booleanExpr">Y = A · B</span>
+            </div>
+            <p class="gate-description-text" id="gateDescription">Output is HIGH (1) if and only if both input A and input B are HIGH (1).</p>
+          </div>
+
+          <!-- Dynamic SVG Schematic Canvas with Spark Overlay -->
+          <div class="circuit-canvas-wrap">
+            <svg id="circuitSvg" viewBox="0 0 600 240" class="circuit-svg" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered by CircuitRenderer -->
+            </svg>
+            <canvas id="sparkCanvas" class="spark-canvas"></canvas>
+          </div>
+
+          <!-- Tactile Input Switches & Output Node -->
+          <div class="circuit-controls-bar">
+            <div class="switches-cluster">
+              <!-- Switch A -->
+              <div class="switch-control-item">
+                <div class="tactile-switch" id="switchA" role="switch" aria-checked="false" tabindex="0">
+                  <div class="switch-thumb" id="handleA">0</div>
+                </div>
+                <div class="switch-meta">
+                  <span class="switch-label">Input A</span>
+                  <span class="switch-state-text" id="labelStateA">LOW (0)</span>
+                </div>
+              </div>
+
+              <!-- Switch B -->
+              <div class="switch-control-item" id="switchBWrapper">
+                <div class="tactile-switch" id="switchB" role="switch" aria-checked="false" tabindex="0">
+                  <div class="switch-thumb" id="handleB">0</div>
+                </div>
+                <div class="switch-meta">
+                  <span class="switch-label">Input B</span>
+                  <span class="switch-state-text" id="labelStateB">LOW (0)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Output Node -->
+            <div class="output-node-group">
+              <div class="switch-meta" style="text-align: right;">
+                <span class="switch-label">Output Y</span>
+                <span class="switch-state-text" id="outputStateText">LOW (0)</span>
+              </div>
+              <div class="output-badge-box" id="outputIndicatorBox">
+                <div class="output-status-dot"></div>
+                <span class="output-value-digit" id="outputVal">0</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Docked Real-Time Logic Analyzer (Waveform Oscilloscope) -->
+        <section class="studio-card" aria-label="Digital Logic Analyzer">
+          <div class="waveform-dock-header">
+            <div class="waveform-dock-title">
+              <i data-lucide="activity" class="lucide-icon"></i>
+              <span>Real-Time Digital Logic Analyzer</span>
+            </div>
+            <div class="waveform-dock-controls">
+              <label for="clockHzSelect" style="font-size: 0.76rem; color: var(--text-secondary); font-family: var(--font-mono);">Clock:</label>
+              <select id="clockHzSelect" class="speed-select">
+                <option value="0.5">0.5 Hz</option>
+                <option value="1" selected>1.0 Hz</option>
+                <option value="2">2.0 Hz</option>
+                <option value="4">4.0 Hz</option>
+              </select>
+              <button class="action-btn" id="autoClockBtn" title="Toggle Auto-Clock (Press C)">
+                <i data-lucide="play" class="lucide-icon icon-sm" id="clockIcon"></i>
+                <span id="clockBtnLabel">Auto Clock</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="canvas-waveform-wrap">
+            <canvas id="waveformCanvas"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Engineering Inspector -->
+      <aside class="inspector-column" aria-label="Engineering Inspector">
+        <!-- Truth Table Card -->
+        <section class="studio-card">
+          <div class="panel-section-title">
+            <i data-lucide="table" class="lucide-icon"></i>
+            <span>Truth Table</span>
+          </div>
+
+          <div class="truth-table-wrap">
+            <table class="truth-table" aria-label="Interactive Truth Table">
+              <thead id="truthTableHead">
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>Y</th>
+                </tr>
+              </thead>
+              <tbody id="truthTableBody">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Silicon Hardware Specifications Card -->
+        <section class="studio-card">
+          <div class="panel-section-title">
+            <i data-lucide="microchip" class="lucide-icon"></i>
+            <span>Silicon &amp; Hardware Specs</span>
+          </div>
+
+          <div class="specs-list">
+            <div class="spec-item">
+              <span class="spec-label">Standard IC Chip</span>
+              <span class="spec-value" id="icChipName">7408 Quad 2-Input</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Propagation Delay</span>
+              <span class="spec-value" id="propDelay">7 ns</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Transistor Count</span>
+              <span class="spec-value" id="transistorCount">6 Transistors</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Logic Family</span>
+              <span class="spec-value">TTL / CMOS</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <!-- 4. Compound Circuits Lab (Sub-view) -->
+    <section class="circuit-lab-panel studio-card" id="circuitLabPanel" aria-label="Compound Digital Circuits Lab">
+      <div class="circuit-card-header">
+        <div class="gate-headline">
+          <h2 id="labCircuitTitle">Half Adder</h2>
+          <span class="formula-tag">Digital Subsystem</span>
+        </div>
+        <p class="gate-description-text" id="labCircuitDesc">1-bit binary adder using XOR (Sum) and AND (Carry) logic.</p>
+      </div>
+
+      <!-- Subsystem Presets -->
+      <div class="lab-selector-bar">
+        <button class="lab-tab-btn active" data-circuit="half_adder">
+          <i data-lucide="git-merge" class="lucide-icon icon-sm"></i>
+          <span>Half Adder</span>
+        </button>
+        <button class="lab-tab-btn" data-circuit="full_adder">
+          <i data-lucide="git-pull-request" class="lucide-icon icon-sm"></i>
+          <span>Full Adder</span>
+        </button>
+        <button class="lab-tab-btn" data-circuit="sr_latch">
+          <i data-lucide="hard-drive" class="lucide-icon icon-sm"></i>
+          <span>SR Latch (Flip-Flop)</span>
+        </button>
+        <button class="lab-tab-btn" data-circuit="mux_2to1">
+          <i data-lucide="split" class="lucide-icon icon-sm"></i>
+          <span>2:1 Multiplexer (MUX)</span>
+        </button>
+      </div>
+
+      <div class="lab-grid">
+        <div class="lab-schematic-card" id="labSvgContainer">
+          <!-- Populated by circuit-builder.js -->
+        </div>
+
+        <div class="studio-card" style="padding: 16px;">
+          <div class="panel-section-title">
+            <i data-lucide="sliders" class="lucide-icon"></i>
+            <span>Interactive Inputs</span>
+          </div>
+          <div id="labInputsContainer" style="display: flex; gap: 16px; flex-wrap: wrap;"></div>
+
+          <div class="panel-section-title" style="margin-top: 10px;">
+            <i data-lucide="check-circle" class="lucide-icon"></i>
+            <span>Computed Outputs</span>
+          </div>
+          <div id="labOutputsContainer" style="display: flex; gap: 16px; flex-wrap: wrap;"></div>
+
+          <div class="specs-list" style="margin-top: 10px;">
+            <div class="spec-item">
+              <span class="spec-label">Commercial Reference</span>
+              <span class="spec-value" id="labCircuitChip">74LS283</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Studio Footer -->
+    <footer class="footer-bar">
+      <div>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <i data-lucide="command" class="lucide-icon icon-sm"></i>
+          Shortcuts:
+        </span>
+        <span class="kbd-badge">A</span> Input A &bull;
+        <span class="kbd-badge">B</span> Input B &bull;
+        <span class="kbd-badge">1-8</span> Switch Gate &bull;
+        <span class="kbd-badge">C</span> Clock &bull;
+        <span class="kbd-badge">T</span> Theme &bull;
+        <span class="kbd-badge">M</span> Mute
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <button class="action-btn" id="replayIntroBtn" onclick="if(window.introCtrl) window.introCtrl.replay();" style="height: 28px; padding: 0 10px; font-size: 0.72rem;" title="Replay 10-Second Introduction">
+          <i data-lucide="rotate-ccw" class="lucide-icon icon-sm"></i>
+          <span>Replay Intro</span>
+        </button>
+        <span>Engineered by <a href="https://github.com/dkr4102" target="_blank" rel="noopener">Darsh K. Raval (dkr4102)</a></span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/audio.js"></script>
+  <script src="js/gates.js"></script>
+  <script src="js/canvas-circuit.js"></script>
+  <script src="js/waveform.js"></script>
+  <script src="js/circuit-builder.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/intro.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

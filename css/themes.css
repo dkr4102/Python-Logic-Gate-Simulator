@@ -1,0 +1,106 @@
+/* ==========================================================================
+   THEME SYSTEM: LIGHT & DARK MODES ONLY
+   Ultra-clean, High-contrast, Minimalist Engineering Aesthetic
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   DARK THEME (Default)
+   Deep Slate-Zinc, OLED Obsidian, Precision Cyan & Emerald Glows
+   -------------------------------------------------------------------------- */
+body.theme-dark {
+  --bg-app: #080c14;
+  --bg-surface: #0f172a;
+  --bg-surface-elevated: #1e293b;
+  --bg-surface-subtle: #141f36;
+  --bg-input: #0b1120;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-focus: #38bdf8;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-inverse: #0f172a;
+
+  --accent-primary: #10b981;
+  --accent-primary-hover: #059669;
+  --accent-primary-glow: rgba(16, 185, 129, 0.25);
+
+  --accent-blue: #38bdf8;
+  --accent-purple: #a855f7;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+
+  --wire-off: #334155;
+  --wire-on: #00f2fe;
+  --wire-glow-on: 0 0 14px rgba(0, 242, 254, 0.8), 0 0 24px rgba(0, 242, 254, 0.4);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  --canvas-grid-color: rgba(255, 255, 255, 0.025);
+  --gate-symbol-fill: #141f36;
+}
+
+body.theme-dark .bg-ambient {
+  background: radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.05) 0%, transparent 45%),
+              radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 45%),
+              linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+  opacity: 0.9;
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT THEME
+   Pure Nordic Minimalism, Clean Crisp Shadows, Precision Slate Contrast
+   -------------------------------------------------------------------------- */
+body.theme-light {
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-surface-subtle: #f8fafc;
+  --bg-input: #f1f5f9;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-focus: #2563eb;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --accent-primary: #059669;
+  --accent-primary-hover: #047857;
+  --accent-primary-glow: rgba(5, 150, 105, 0.15);
+
+  --accent-blue: #0284c7;
+  --accent-purple: #7c3aed;
+  --accent-amber: #d97706;
+  --accent-rose: #e11d48;
+
+  --wire-off: #cbd5e1;
+  --wire-on: #059669;
+  --wire-glow-on: 0 0 10px rgba(5, 150, 105, 0.5);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.08);
+
+  --canvas-grid-color: rgba(0, 0, 0, 0.03);
+  --gate-symbol-fill: #f1f5f9;
+}
+
+body.theme-light .bg-ambient {
+  background: radial-gradient(circle at 15% 15%, rgba(5, 150, 105, 0.04) 0%, transparent 40%),
+              radial-gradient(circle at 85% 85%, rgba(2, 132, 199, 0.04) 0%, transparent 40%),
+              linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+  opacity: 0.85;
+}
