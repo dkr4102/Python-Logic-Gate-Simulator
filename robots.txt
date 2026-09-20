@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Host
+Host: https://logicgate-studio.vercel.app
+
+# Sitemaps
+Sitemap: https://logicgate-studio.vercel.app/sitemap.xml

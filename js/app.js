@@ -520,6 +520,21 @@ class LogicSimulatorApp {
   }
 }
 
+window.toggleGuideContent = function() {
+  const content = document.getElementById('guideContentArea');
+  const btnText = document.getElementById('guideToggleText');
+  const btnIcon = document.getElementById('guideToggleIcon');
+  if (!content) return;
+  const isCollapsed = content.classList.toggle('collapsed');
+  if (btnText) {
+    btnText.textContent = isCollapsed ? 'Expand Guide' : 'Collapse Guide';
+  }
+  if (btnIcon) {
+    btnIcon.setAttribute('data-lucide', isCollapsed ? 'chevron-down' : 'chevron-up');
+    if (window.lucide) window.lucide.createIcons();
+  }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new LogicSimulatorApp();
 });

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00f2fe" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#080c14" />
+  <rect x="2" y="2" width="60" height="60" rx="12" stroke="#1e293b" stroke-width="2" />
+  
+  <!-- Logic Gate Symbol Outline -->
+  <path d="M 16 16 L 30 16 C 42 16 48 24 48 32 C 48 40 42 48 30 48 L 16 48 Z" 
+        fill="#0f172a" stroke="url(#glowGrad)" stroke-width="3.5" stroke-linejoin="round" filter="url(#neon)"/>
+        
+  <!-- Input pins -->
+  <line x1="6" y1="24" x2="16" y2="24" stroke="#00f2fe" stroke-width="3" stroke-linecap="round" />
+  <line x1="6" y1="40" x2="16" y2="40" stroke="#00f2fe" stroke-width="3" stroke-linecap="round" />
+  
+  <!-- Output pin -->
+  <line x1="48" y1="32" x2="58" y2="32" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+  <circle cx="58" cy="32" r="3" fill="#10b981" />
+  
+  <!-- Center Core -->
+  <circle cx="32" cy="32" r="4" fill="#00f2fe" />
+</svg>

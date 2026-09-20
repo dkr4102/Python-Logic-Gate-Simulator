@@ -3,9 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LogicGate Studio | Digital Logic Simulator</title>
-  <meta name="description" content="Precision digital logic gate simulator and computer architecture suite with real-time waveform analysis, interactive truth tables, and compound circuit design.">
+  <!-- Primary Search Engine Meta Tags -->
+  <title>Logic Gate Simulation &amp; Online Circuit Simulator | LogicGate Studio</title>
+  <meta name="title" content="Logic Gate Simulation &amp; Online Circuit Simulator | LogicGate Studio">
+  <meta name="description" content="Free online logic gate simulation platform. Simulate AND, OR, NOT, NAND, NOR, XOR, XNOR gates with live waveform analysis, truth tables, and compound circuits.">
+  <meta name="keywords" content="logic gate simulation, logic gate simulator, online logic gate simulator, logic gates online, digital logic simulator, logic circuit simulator, simulate logic gates, truth table generator, boolean algebra simulator, half adder circuit, full adder simulator">
   <meta name="author" content="Darsh K. Raval">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://logicgate-studio.vercel.app/">
+
+  <!-- PWA & Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#080c14">
+
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://logicgate-studio.vercel.app/">
+  <meta property="og:title" content="Logic Gate Simulation &amp; Online Circuit Simulator | LogicGate Studio">
+  <meta property="og:description" content="Free online logic gate simulation platform. Simulate AND, OR, NOT, NAND, NOR, XOR, XNOR gates with live waveform analysis, truth tables, and compound circuits.">
+  <meta property="og:image" content="https://logicgate-studio.vercel.app/assets/og-preview.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="LogicGate Studio">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://logicgate-studio.vercel.app/">
+  <meta name="twitter:title" content="Logic Gate Simulation &amp; Online Circuit Simulator | LogicGate Studio">
+  <meta name="twitter:description" content="Interactive digital logic gate simulation platform with live waveform analyzer, truth tables, and adder circuits.">
+  <meta name="twitter:image" content="https://logicgate-studio.vercel.app/assets/og-preview.svg">
+  <meta name="twitter:creator" content="@dkr4102">
+
+  <!-- Structured Data: WebApplication & FAQPage Schema for Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://logicgate-studio.vercel.app/#webapp",
+        "name": "LogicGate Studio - Logic Gate Simulation & Digital Circuit Lab",
+        "url": "https://logicgate-studio.vercel.app/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "All modern web browsers",
+        "browserRequirements": "Requires JavaScript. Requires HTML5 Canvas.",
+        "softwareVersion": "2.0",
+        "description": "Interactive online logic gate simulation suite. Simulate AND, OR, NOT, NAND, NOR, XOR, XNOR gates with real-time oscilloscope waveforms, truth tables, and adders.",
+        "author": {
+          "@type": "Person",
+          "name": "Darsh K. Raval",
+          "url": "https://github.com/dkr4102"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://logicgate-studio.vercel.app/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is a logic gate simulation?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Logic gate simulation is the real-time modeling of fundamental electronic logic gates (AND, OR, NOT, NAND, NOR, XOR, XNOR) to test binary inputs (0 and 1), verify Boolean algebraic expressions, and analyze signal propagation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which logic gates can I simulate online?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can simulate all standard digital logic gates: AND, OR, NOT, NAND, NOR, XOR, XNOR, and BUFFER, complete with commercial IC chip specs (7408, 7432, 7404, 7400, etc.)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do truth tables work in this simulator?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Truth tables display all possible input permutations and corresponding outputs. In LogicGate Studio, the active state row illuminates automatically in real-time, and clicking any row instantly injects that input combination into the circuit."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I test compound circuits like Adders and Flip-Flops?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, the Compound Circuits mode allows you to simulate Half Adders, Full Adders (with Carry-In and Carry-Out), SR Latches (1-bit memory storage), and 2-to-1 Multiplexers."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 
   <!-- Google Fonts: Space Grotesk (Headings), Outfit (UI Sans), Fira Code (Technical Monospace) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -327,7 +424,154 @@
       </div>
     </section>
 
-    <!-- 5. Studio Footer -->
+    <!-- 5. Educational Reference & Logic Gate Simulation Guide (SEO Content) -->
+    <article class="seo-guide-section studio-card" id="logicGateGuide" aria-label="Logic Gate Simulation Guide &amp; Educational Reference">
+      <header class="guide-header" onclick="toggleGuideContent()">
+        <div class="guide-header-text">
+          <h2>
+            <i data-lucide="book-open" class="lucide-icon"></i>
+            <span>Logic Gate Simulation &amp; Digital Circuit Guide</span>
+          </h2>
+          <p>Educational reference, Boolean algebra formulas, truth tables, and silicon architecture specifications.</p>
+        </div>
+        <button class="guide-toggle-btn" id="guideToggleBtn" type="button" aria-expanded="true">
+          <span id="guideToggleText">Collapse Guide</span>
+          <i data-lucide="chevron-up" class="lucide-icon icon-sm" id="guideToggleIcon"></i>
+        </button>
+      </header>
+
+      <div class="guide-content" id="guideContentArea">
+        <!-- Section 1: Overview -->
+        <section class="guide-block">
+          <h3><i data-lucide="cpu" class="lucide-icon icon-sm"></i> What is Logic Gate Simulation?</h3>
+          <p>
+            <strong>Logic gate simulation</strong> is the computational modeling of binary digital circuits used in modern microprocessors, arithmetic logic units (ALUs), and digital computers. By simulating physical electrical voltages (HIGH = +5.0V / 1, LOW = 0.0V / 0) across semiconductor logic gates, engineers and computer science students can test Boolean logic equations, verify truth tables, trace signal propagation delay, and analyze waveform timing before fabricating physical silicon microchips.
+          </p>
+        </section>
+
+        <!-- Section 2: Complete Gate Reference -->
+        <section class="guide-block">
+          <h3><i data-lucide="grid" class="lucide-icon icon-sm"></i> Standard Digital Logic Gates</h3>
+          <div class="guide-gates-grid">
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">AND Gate</span>
+                <span class="guide-gate-formula">Y = A · B</span>
+              </div>
+              <p class="guide-gate-desc">Outputs HIGH (1) only when all inputs are HIGH (1). Used for conditional gating and binary masking (TTL 7408).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">OR Gate</span>
+                <span class="guide-gate-formula">Y = A + B</span>
+              </div>
+              <p class="guide-gate-desc">Outputs HIGH (1) if at least one input is HIGH (1). Fundamental for digital selection and routing (TTL 7432).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">NOT Gate (Inverter)</span>
+                <span class="guide-gate-formula">Y = Ā</span>
+              </div>
+              <p class="guide-gate-desc">Inverts the binary state. HIGH becomes LOW and LOW becomes HIGH. Fundamental for complementary logic (TTL 7404).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">NAND Gate</span>
+                <span class="guide-gate-formula">Y = (A · B)'</span>
+              </div>
+              <p class="guide-gate-desc">Universal logic gate. Outputs LOW (0) only when all inputs are HIGH (1). Any Boolean circuit can be built exclusively with NAND gates (TTL 7400).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">NOR Gate</span>
+                <span class="guide-gate-formula">Y = (A + B)'</span>
+              </div>
+              <p class="guide-gate-desc">Universal logic gate. Outputs HIGH (1) only when all inputs are LOW (0). Key building block for bistable multivibrators and SR latches (TTL 7402).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">XOR Gate</span>
+                <span class="guide-gate-formula">Y = A ⊕ B</span>
+              </div>
+              <p class="guide-gate-desc">Exclusive-OR gate. Outputs HIGH (1) when inputs are strictly different (odd parity). Core element of binary half adders and parity generators (TTL 7486).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">XNOR Gate</span>
+                <span class="guide-gate-formula">Y = (A ⊕ B)'</span>
+              </div>
+              <p class="guide-gate-desc">Digital equivalence gate. Outputs HIGH (1) when both inputs are identical (even parity) (TTL 74266).</p>
+            </div>
+
+            <div class="guide-gate-card">
+              <div class="guide-gate-card-title">
+                <span class="guide-gate-name">BUFFER Gate</span>
+                <span class="guide-gate-formula">Y = A</span>
+              </div>
+              <p class="guide-gate-desc">Transfers input logic to output without inversion while boosting fan-out current drive and signal integrity (TTL 7407).</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Compound Digital Subsystems -->
+        <section class="guide-block">
+          <h3><i data-lucide="layers" class="lucide-icon icon-sm"></i> Compound Circuit Architectures</h3>
+          <p>
+            Complex digital computing systems are composed by combining multiple primitive logic gates into compound subsystems:
+          </p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+            <li><strong>Half Adder:</strong> Computes the sum of two single-bit binary inputs producing a <code>Sum (S = A ⊕ B)</code> and a <code>Carry (C = A · B)</code>.</li>
+            <li><strong>Full Adder:</strong> Adds three binary digits (Input A, Input B, and Carry-In), vital for cascading n-bit ripple-carry adders.</li>
+            <li><strong>SR Latch (Bistable Flip-Flop):</strong> Built using cross-coupled NOR gates to create 1-bit static RAM memory with Set, Reset, and State Retention.</li>
+            <li><strong>2-to-1 Multiplexer (MUX):</strong> Selects between two binary data lines using a dedicated control Select signal, the foundation of data bus routing.</li>
+          </ul>
+        </section>
+
+        <!-- Section 4: Frequently Asked Questions (Matches FAQ Schema) -->
+        <section class="guide-block">
+          <h3><i data-lucide="help-circle" class="lucide-icon icon-sm"></i> Frequently Asked Questions</h3>
+          <div class="faq-container">
+            <details class="faq-item" open>
+              <summary class="faq-question">
+                <span>What is an online logic gate simulator?</span>
+                <i data-lucide="chevron-down" class="lucide-icon icon-sm"></i>
+              </summary>
+              <div class="faq-answer">
+                An online logic gate simulator is an interactive browser-based software application that models digital logic gates, wires, and electronic switches. It calculates Boolean outputs in real-time, displays live truth table activations, and plots digital waveforms on an integrated oscilloscope without requiring physical breadboards or hardware components.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>How can I simulate custom input states?</span>
+                <i data-lucide="chevron-down" class="lucide-icon icon-sm"></i>
+              </summary>
+              <div class="faq-answer">
+                You can toggle Input A and Input B using the tactile switches on screen, press keyboard keys <kbd>A</kbd> and <kbd>B</kbd>, enable the automated digital clock generator (<kbd>C</kbd>), or click any individual row in the interactive Truth Table to inject that combination immediately.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>Why are NAND and NOR gates called universal gates?</span>
+                <i data-lucide="chevron-down" class="lucide-icon icon-sm"></i>
+              </summary>
+              <div class="faq-answer">
+                NAND and NOR gates are classified as universal gates because any other fundamental Boolean logic operation (AND, OR, NOT, XOR, XNOR) can be implemented solely through combinations of either NAND or NOR gates. This property drastically simplifies real-world VLSI semiconductor manufacturing.
+              </div>
+            </details>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <!-- 6. Studio Footer -->
     <footer class="footer-bar">
       <div>
         <span style="display: inline-flex; align-items: center; gap: 6px;">
