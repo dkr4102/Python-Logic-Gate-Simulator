@@ -4,9 +4,12 @@
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Desktop-10b981.svg)]()
 [![Audio](https://img.shields.io/badge/Audio-Procedural%20Web%20Audio-8b5cf6.svg)]()
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Demo-black?logo=vercel&logoColor=white)](https://logicgate-studio.vercel.app)
 [![GitHub Pages](https://img.shields.io/badge/Deployment-GitHub%20Pages%20Ready-38bdf8.svg)]()
 
 > Designed & Engineered by **[Darsh K. Raval (dkr4102)](https://github.com/dkr4102)**
+
+🌐 **Live Production Web Studio**: **[https://logicgate-studio.vercel.app](https://logicgate-studio.vercel.app)**
 
 A next-generation digital logic gate simulation and computer architecture learning suite. Features a minimalist **Web Studio** with Light and Dark themes, Lucide icons, multi-layered glowing electrical conduits with flowing electron animations, real-time waveform logic analyzer, interactive truth tables, and compound circuit sandbox — alongside a completely bug-fixed, modernized **Python Tkinter Desktop Application**.
 
