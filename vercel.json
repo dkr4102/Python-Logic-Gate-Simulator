@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "cleanUrls": true,
   "framework": null,
   "headers": [
+    {
+      "source": "/google6f1bfb8eb197f062.html",
+      "headers": [
+        { "key": "Content-Type", "value": "text/html" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
     {
       "source": "/sitemap.xml",
       "headers": [
